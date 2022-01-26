@@ -630,6 +630,36 @@ class CameraViewController: UIViewController,
 	}
 	
 	// MARK: Drawing Metadata Object Overlay Layers
+    
+    let candidates = ["aolig",
+                      "baiossi",
+                      "baiteman",
+                      "cumhead",
+                      "dao",
+                      "dudu",
+                      "eggman",
+                      "faker",
+                      "gaofei",
+                      "giao",
+                      "gothamnightmare",
+                      "guizhouteethgirl",
+                      "hanmeijuan",
+                      "hanwang",
+                      "hello",
+                      "horsecawgenital",
+                      "lao8",
+                      "lili",
+                      "lixueqin",
+                      "poison",
+                      "profguo",
+                      "shamate",
+                      "socialking",
+                      "threedays",
+                      "tianyiming",
+                      "tigerbro",
+                      "weiya",
+                      "yingliu",
+                      "zhongmm"].shuffled()
 	
 	@IBOutlet private var metadataObjectTypesButton: UIButton!
 	
@@ -662,12 +692,12 @@ class CameraViewController: UIViewController,
 		// Create the initial metadata object overlay layer for either machine readable codes or faces.
 		let metadataObjectOverlayLayer = MetadataObjectLayer()
 		metadataObjectOverlayLayer.metadataObject = transformedMetadataObject
-        metadataObjectOverlayLayer.lineJoin = .round
-		metadataObjectOverlayLayer.lineWidth = 7.0
-		metadataObjectOverlayLayer.strokeColor = view.tintColor.withAlphaComponent(0.7).cgColor
-		metadataObjectOverlayLayer.fillColor = view.tintColor.withAlphaComponent(0.3).cgColor
 		
 		if let barcodeMetadataObject = transformedMetadataObject as? AVMetadataMachineReadableCodeObject {
+            metadataObjectOverlayLayer.lineJoin = .round
+            metadataObjectOverlayLayer.lineWidth = 7.0
+            metadataObjectOverlayLayer.strokeColor = view.tintColor.withAlphaComponent(0.7).cgColor
+            metadataObjectOverlayLayer.fillColor = view.tintColor.withAlphaComponent(0.3).cgColor
 			
 			let barcodeOverlayPath = barcodeOverlayPathWithCorners(barcodeMetadataObject.corners)
 			metadataObjectOverlayLayer.path = barcodeOverlayPath
@@ -725,7 +755,21 @@ class CameraViewController: UIViewController,
 				metadataObjectOverlayLayer.addSublayer(textLayer)
 			}
 		} else if let faceMetadataObject = transformedMetadataObject as? AVMetadataFaceObject {
-			metadataObjectOverlayLayer.path = CGPath(rect: faceMetadataObject.bounds, transform: nil)
+            let index = faceMetadataObject.faceID % candidates.count
+            let iamgeName = candidates[index]
+            let image = UIImage(named: iamgeName)
+
+            let originalBounds = faceMetadataObject.bounds
+            let newX = 1.5 * originalBounds.minX - 0.5 * originalBounds.midX
+            let newY = 1.7 * originalBounds.minY - 0.7 * originalBounds.maxY
+            let newWidth = 1.5 * originalBounds.width
+            let newHeight = 2 * originalBounds.height
+            let newBounds = CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
+
+            metadataObjectOverlayLayer.frame = newBounds
+            metadataObjectOverlayLayer.bounds = newBounds
+            metadataObjectOverlayLayer.contents = image?.cgImage
+            
 		}
 		
 		return metadataObjectOverlayLayer
