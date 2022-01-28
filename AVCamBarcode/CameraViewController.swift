@@ -456,16 +456,6 @@ class CameraViewController: UIViewController,
 				if !isSessionRunning {
 					self.removeMetadataObjectOverlayLayers()
 				}
-				
-				/*
-                 When the session starts running, the aspect ratio of the video
-                 preview may change if the app applies a new session preset. To
-                 keep the preview view's region of interest within the visible
-                 portion of the video preview, update the view's region of interest.
-				*/
-				if isSessionRunning {
-					self.previewView.setRegionOfInterestWithProposedRegionOfInterest(self.previewView.regionOfInterest)
-				}
 			}
 		}
 		keyValueObservations.append(keyValueObservation)
