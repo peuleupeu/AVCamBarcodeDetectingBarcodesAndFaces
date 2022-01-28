@@ -289,8 +289,6 @@ class CameraViewController: UIViewController,
 			return
 		}
 		
-		self.setRecommendedZoomFactor()
-		
 		session.commitConfiguration()
 	}
 
@@ -397,8 +395,6 @@ class CameraViewController: UIViewController,
 						self.session.sessionPreset = previousSessionPreset
 					}
 					
-					self.setRecommendedZoomFactor()
-					
 					self.session.commitConfiguration()
 				} catch {
 					print("Error occured while creating video device input: \(error)")
@@ -425,33 +421,6 @@ class CameraViewController: UIViewController,
 			videoDeviceInput.device.unlockForConfiguration()
 		} catch {
 			print("Could not lock for configuration: \(error)")
-		}
-	}
-	
-	private func setRecommendedZoomFactor() {
-		/*
-         Optimize the user experience for scanning QR codes down to sizes of 20mm x 20mm.
-         When scanning a QR code of that size, the user may need to get closer
-         than the camera's minimum focus distance to fill the rectangle of interest.
-         To have the QR code both fill the rectangle and still be in focus, apply
-         some zoom, if necessary.
-		*/
-		let deviceMinimumFocusDistance = Float(self.videoDeviceInput.device.minimumFocusDistance)
-		guard deviceMinimumFocusDistance != -1 else { return }
-		
-		let deviceFieldOfView = self.videoDeviceInput.device.activeFormat.videoFieldOfView
-		let minimumSubjectDistanceForCode = minimumSubjectDistanceForCode(fieldOfView: deviceFieldOfView,
-																		  minimumCodeSize: 20,
-																		  previewFillPercentage: Float(self.rectOfInterestWidth))
-		if minimumSubjectDistanceForCode < deviceMinimumFocusDistance {
-			let zoomFactor = deviceMinimumFocusDistance / minimumSubjectDistanceForCode
-			do {
-				try videoDeviceInput.device.lockForConfiguration()
-				videoDeviceInput.device.videoZoomFactor = CGFloat(zoomFactor)
-				videoDeviceInput.device.unlockForConfiguration()
-			} catch {
-				print("Could not lock for configuration: \(error)")
-			}
 		}
 	}
 	
