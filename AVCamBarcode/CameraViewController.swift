@@ -120,11 +120,6 @@ class CameraViewController: UIViewController,
 		super.viewWillDisappear(animated)
 	}
 	
-	override var shouldAutorotate: Bool {
-		// Do not allow rotation if resizing the region of interest.
-		return !previewView.isResizingRegionOfInterest
-	}
-	
 	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 		super.viewWillTransition(to: size, with: coordinator)
 		
@@ -136,23 +131,9 @@ class CameraViewController: UIViewController,
 			}
 			
 			videoPreviewLayerConnection.videoOrientation = newVideoOrientation
-			
-			/*
-             When transitioning to a new size, recalculate the preview view's
-             region of interest rectangle so that it stays in the same position
-             relative to the camera.
-			*/
-			coordinator.animate(alongsideTransition: { context in
-				
-					let newRegionOfInterest = self.previewView.videoPreviewLayer.layerRectConverted(fromMetadataOutputRect: self.metadataOutput.rectOfInterest)
-					self.previewView.setRegionOfInterestWithProposedRegionOfInterest(newRegionOfInterest)
-				},
-				completion: { context in
-					
-					// Remove the old metadata object overlays.
-					self.removeMetadataObjectOverlayLayers()
-				}
-			)
+            
+            // Remove the old metadata object overlays.
+            self.removeMetadataObjectOverlayLayers()
 		}
 	}
 	
@@ -269,11 +250,6 @@ class CameraViewController: UIViewController,
 			*/
             let initialRectOfInterest = CGRect(x: 0.0, y: 0.0, width: self.rectOfInterestWidth, height: self.rectOfInterestHeight)
 			metadataOutput.rectOfInterest = initialRectOfInterest
-
-			DispatchQueue.main.async {
-				let initialRegionOfInterest = self.previewView.videoPreviewLayer.layerRectConverted(fromMetadataOutputRect: initialRectOfInterest)
-				self.previewView.setRegionOfInterestWithProposedRegionOfInterest(initialRegionOfInterest)
-			}
 		} else {
 			print("Could not add metadata output to the session")
 			setupResult = .configurationFailed
