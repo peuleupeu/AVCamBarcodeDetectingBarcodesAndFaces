@@ -18,7 +18,6 @@ class CameraViewController: UIViewController,
 		super.viewDidLoad()
 		
 		// The UI is disabled, it's enabled only if the session starts running.
-		sessionPresetsButton.isEnabled = false
 		cameraButton.isEnabled = false
 		zoomSlider.isEnabled = false
 		
@@ -254,31 +253,6 @@ class CameraViewController: UIViewController,
 	
 	private let metadataObjectsQueue = DispatchQueue(label: "metadata objects queue", attributes: [], target: nil)
 	
-	@IBOutlet private var sessionPresetsButton: UIButton!
-	
-	private func availableSessionPresets() -> [AVCaptureSession.Preset] {
-		let allSessionPresets: [AVCaptureSession.Preset] = [.photo,
-		                                                    .low,
-		                                                    .medium,
-		                                                    .high,
-		                                                    .cif352x288,
-		                                                    .vga640x480,
-		                                                    .hd1280x720,
-		                                                    .iFrame960x540,
-		                                                    .iFrame1280x720,
-		                                                    .hd1920x1080,
-		                                                    .hd4K3840x2160]
-		
-		var availableSessionPresets: [AVCaptureSession.Preset] = []
-		for sessionPreset in allSessionPresets {
-			if session.canSetSessionPreset(sessionPreset) {
-				availableSessionPresets.append(sessionPreset)
-			}
-		}
-		
-		return availableSessionPresets
-	}
-	
 	// MARK: Device Configuration
 	
 	@IBOutlet private var cameraButton: UIButton!
@@ -288,7 +262,6 @@ class CameraViewController: UIViewController,
 	private let videoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified)
 	
 	@IBAction private func changeCamera() {
-		sessionPresetsButton.isEnabled = false
 		cameraButton.isEnabled = false
 		zoomSlider.isEnabled = false
 		
@@ -359,7 +332,6 @@ class CameraViewController: UIViewController,
 			}
 			
 			DispatchQueue.main.async {
-				self.sessionPresetsButton.isEnabled = true
 				self.cameraButton.isEnabled = true
 				self.zoomSlider.isEnabled = true
 				self.zoomSlider.maximumValue = Float(min(self.videoDeviceInput.device.activeFormat.videoMaxZoomFactor, CGFloat(8.0)))
@@ -391,7 +363,6 @@ class CameraViewController: UIViewController,
 			guard let isSessionRunning = change.newValue else { return }
 			
 			DispatchQueue.main.async {
-				self.sessionPresetsButton.isEnabled = isSessionRunning
 				self.cameraButton.isEnabled = isSessionRunning && self.videoDeviceDiscoverySession.devices.count > 1
 				self.zoomSlider.isEnabled = isSessionRunning
 				self.zoomSlider.maximumValue = Float(min(self.videoDeviceInput.device.activeFormat.videoMaxZoomFactor, CGFloat(8.0)))
