@@ -469,28 +469,6 @@ class CameraViewController: UIViewController,
 			}
 		}
 		keyValueObservations.append(keyValueObservation)
-		
-		/*
-         Observe the preview view's region of interest to update the `AVCaptureMetadataOutput`'s
-         `rectOfInterest` when the user resizes the region of interest.
-		*/
-		keyValueObservation = previewView.observe(\.regionOfInterest, options: .new) { _, change in
-			guard let regionOfInterest = change.newValue else { return }
-			
-			DispatchQueue.main.async {
-				// Ensure the app isn't drawing old metadata object overlays.
-				self.removeMetadataObjectOverlayLayers()
-				
-				// Translate the preview view's region of interest to the metadata output's coordinate system.
-				let metadataOutputRectOfInterest = self.previewView.videoPreviewLayer.metadataOutputRectConverted(fromLayerRect: regionOfInterest)
-				
-				// Update the `AVCaptureMetadataOutput` with the new region of interest.
-				self.sessionQueue.async {
-					self.metadataOutput.rectOfInterest = metadataOutputRectOfInterest
-				}
-			}
-		}
-		keyValueObservations.append(keyValueObservation)
 	
 		let notificationCenter = NotificationCenter.default
 		
