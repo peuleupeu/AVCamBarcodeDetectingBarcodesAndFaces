@@ -693,68 +693,7 @@ class CameraViewController: UIViewController,
 		let metadataObjectOverlayLayer = MetadataObjectLayer()
 		metadataObjectOverlayLayer.metadataObject = transformedMetadataObject
 		
-		if let barcodeMetadataObject = transformedMetadataObject as? AVMetadataMachineReadableCodeObject {
-            metadataObjectOverlayLayer.lineJoin = .round
-            metadataObjectOverlayLayer.lineWidth = 7.0
-            metadataObjectOverlayLayer.strokeColor = view.tintColor.withAlphaComponent(0.7).cgColor
-            metadataObjectOverlayLayer.fillColor = view.tintColor.withAlphaComponent(0.3).cgColor
-			
-			let barcodeOverlayPath = barcodeOverlayPathWithCorners(barcodeMetadataObject.corners)
-			metadataObjectOverlayLayer.path = barcodeOverlayPath
-			
-			// If the metadata object has a string value, display it.
-			let textLayerString: String?
-			if let stringValue = barcodeMetadataObject.stringValue, !stringValue.isEmpty {
-				textLayerString = stringValue
-			} else if let barcodeDescriptor = barcodeMetadataObject.descriptor {
-				if barcodeDescriptor is CIQRCodeDescriptor {
-					textLayerString = "<QR Code Binary Data Present>"
-				} else if barcodeDescriptor is CIAztecCodeDescriptor {
-					textLayerString = "<Aztec Code Binary Data Present>"
-				} else if barcodeDescriptor is CIPDF417CodeDescriptor {
-					textLayerString = "<PDF417 Code Binary Data Present>"
-				} else if barcodeDescriptor is CIDataMatrixCodeDescriptor {
-					textLayerString = "<Data Matrix Code Binary Data Present>"
-				} else {
-					fatalError("Unexpected barcode descriptor found: \(barcodeDescriptor)")
-				}
-			} else {
-				textLayerString = nil
-			}
-			
-			if let textLayerString = textLayerString {
-				let barcodeOverlayBoundingBox = barcodeOverlayPath.boundingBox
-				
-				// 1D barcodes often have a height of 1 pixel which is too small
-                // to display text, so set a minimum height for the text layer.
-				let fontSize: CGFloat = 19
-				let minimumTextLayerHeight: CGFloat = fontSize + 4
-				let textLayerHeight: CGFloat
-				if barcodeOverlayBoundingBox.size.height < minimumTextLayerHeight {
-					textLayerHeight = minimumTextLayerHeight
-				} else {
-					textLayerHeight = barcodeOverlayBoundingBox.size.height
-				}
-				
-				let textLayer = CATextLayer()
-                textLayer.alignmentMode = .center
-				textLayer.bounds = CGRect(x: 0.0, y: 0.0, width: barcodeOverlayBoundingBox.size.width, height: textLayerHeight)
-				textLayer.contentsScale = UIScreen.main.scale
-				textLayer.font = UIFont.boldSystemFont(ofSize: 19).fontName as CFString
-				textLayer.position = CGPoint(x: barcodeOverlayBoundingBox.midX, y: barcodeOverlayBoundingBox.midY)
-				textLayer.string = NSAttributedString(string: textLayerString,
-				                                      attributes: [.font: UIFont.boldSystemFont(ofSize: fontSize),
-				                                                   .foregroundColor: UIColor.white.cgColor,
-				                                                   .strokeWidth: -5.0,
-				                                                   .strokeColor: UIColor.black.cgColor])
-				textLayer.isWrapped = true
-				
-				// Invert the effect of transform of the video preview so the text matches the interface orientation.
-				textLayer.transform = CATransform3DInvert(CATransform3DMakeAffineTransform(previewView.transform))
-				
-				metadataObjectOverlayLayer.addSublayer(textLayer)
-			}
-		} else if let faceMetadataObject = transformedMetadataObject as? AVMetadataFaceObject {
+		if let faceMetadataObject = transformedMetadataObject as? AVMetadataFaceObject {
             let index = faceMetadataObject.faceID % candidates.count
             let iamgeName = candidates[index]
             let image = UIImage(named: iamgeName)
