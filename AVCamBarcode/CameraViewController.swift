@@ -19,7 +19,6 @@ class CameraViewController: UIViewController,
 		
 		// The UI is disabled, it's enabled only if the session starts running.
 		cameraButton.isEnabled = false
-		zoomSlider.isEnabled = false
 		
 		// Set up the video preview view.
 		previewView.session = session
@@ -263,7 +262,6 @@ class CameraViewController: UIViewController,
 	
 	@IBAction private func changeCamera() {
 		cameraButton.isEnabled = false
-		zoomSlider.isEnabled = false
 		
 		// Remove the metadata overlay layers, if any.
 		removeMetadataObjectOverlayLayers()
@@ -333,22 +331,7 @@ class CameraViewController: UIViewController,
 			
 			DispatchQueue.main.async {
 				self.cameraButton.isEnabled = true
-				self.zoomSlider.isEnabled = true
-				self.zoomSlider.maximumValue = Float(min(self.videoDeviceInput.device.activeFormat.videoMaxZoomFactor, CGFloat(8.0)))
-				self.zoomSlider.value = Float(self.videoDeviceInput.device.videoZoomFactor)
 			}
-		}
-	}
-	
-	@IBOutlet private var zoomSlider: UISlider!
-	
-	@IBAction private func zoomCamera(with zoomSlider: UISlider) {
-		do {
-			try videoDeviceInput.device.lockForConfiguration()
-			videoDeviceInput.device.videoZoomFactor = CGFloat(zoomSlider.value)
-			videoDeviceInput.device.unlockForConfiguration()
-		} catch {
-			print("Could not lock for configuration: \(error)")
 		}
 	}
 	
@@ -364,9 +347,6 @@ class CameraViewController: UIViewController,
 			
 			DispatchQueue.main.async {
 				self.cameraButton.isEnabled = isSessionRunning && self.videoDeviceDiscoverySession.devices.count > 1
-				self.zoomSlider.isEnabled = isSessionRunning
-				self.zoomSlider.maximumValue = Float(min(self.videoDeviceInput.device.activeFormat.videoMaxZoomFactor, CGFloat(8.0)))
-				self.zoomSlider.value = Float(self.videoDeviceInput.device.videoZoomFactor)
 				
 				/*
                  After the session stops running, remove the metadata object

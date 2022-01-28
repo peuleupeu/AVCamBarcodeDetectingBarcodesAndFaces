@@ -25,12 +25,6 @@
                                 <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6Am-YQ-PDc">
-                                <rect key="frame" x="18" y="642" width="378" height="31"/>
-                                <connections>
-                                    <action selector="zoomCameraWith:" destination="pYE-xa-CpI" eventType="valueChanged" id="fRL-Lx-e7U"/>
-                                </connections>
-                            </slider>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVm-ag-Lfj">
                                 <rect key="frame" x="266.66666666666669" y="680" width="103.66666666666669" height="36"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
@@ -51,12 +45,9 @@
                         <constraints>
                             <constraint firstItem="Glm-3F-w79" firstAttribute="trailing" secondItem="guD-bB-Q2w" secondAttribute="trailing" id="1cL-8Q-X7G"/>
                             <constraint firstItem="nFV-EL-Pn1" firstAttribute="centerY" secondItem="GaW-eL-ee2" secondAttribute="centerY" id="4U2-KX-s1p"/>
-                            <constraint firstItem="6Am-YQ-PDc" firstAttribute="leading" secondItem="GaW-eL-ee2" secondAttribute="leadingMargin" id="ClA-FM-vHr"/>
                             <constraint firstItem="guD-bB-Q2w" firstAttribute="leading" secondItem="Glm-3F-w79" secondAttribute="leading" id="Mt7-Rd-2RD"/>
-                            <constraint firstItem="6Am-YQ-PDc" firstAttribute="trailing" secondItem="GaW-eL-ee2" secondAttribute="trailingMargin" id="Pb7-LM-JPO"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="LVm-ag-Lfj" secondAttribute="trailing" constant="31" id="SGv-Bb-6ud"/>
                             <constraint firstItem="nFV-EL-Pn1" firstAttribute="centerX" secondItem="Glm-3F-w79" secondAttribute="centerX" id="WN4-Uh-Ja1"/>
-                            <constraint firstItem="LVm-ag-Lfj" firstAttribute="top" secondItem="6Am-YQ-PDc" secondAttribute="bottom" constant="8" id="aGW-ge-Xfh"/>
                             <constraint firstAttribute="bottom" secondItem="guD-bB-Q2w" secondAttribute="bottom" id="bvU-g8-pba"/>
                             <constraint firstItem="guD-bB-Q2w" firstAttribute="top" secondItem="GaW-eL-ee2" secondAttribute="top" id="xPs-b3-y3x"/>
                         </constraints>
@@ -66,7 +57,6 @@
                         <outlet property="cameraButton" destination="LVm-ag-Lfj" id="7Yg-nk-caj"/>
                         <outlet property="cameraUnavailableLabel" destination="nFV-EL-Pn1" id="xoc-xK-b7e"/>
                         <outlet property="previewView" destination="guD-bB-Q2w" id="m5z-tC-RRN"/>
-                        <outlet property="zoomSlider" destination="6Am-YQ-PDc" id="VpL-Eh-Tpw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B6K-l6-dJ5" sceneMemberID="firstResponder"/>
