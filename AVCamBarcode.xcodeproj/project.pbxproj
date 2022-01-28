@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7A5BA9721CD2B5EE0091A264 /* ItemSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5BA9711CD2B5EE0091A264 /* ItemSelectionViewController.swift */; };
 		7A921C841CD2858B00E7B04B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A921C831CD2858B00E7B04B /* AppDelegate.swift */; };
 		7A921C861CD2858B00E7B04B /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A921C851CD2858B00E7B04B /* CameraViewController.swift */; };
 		7A921C891CD2858B00E7B04B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A921C871CD2858B00E7B04B /* Main.storyboard */; };
@@ -19,7 +18,6 @@
 /* Begin PBXFileReference section */
 		6B6724B83F688839AA443494 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		7A00104A1CD28B5500302C83 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		7A5BA9711CD2B5EE0091A264 /* ItemSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemSelectionViewController.swift; sourceTree = "<group>"; };
 		7A921C801CD2858B00E7B04B /* AVCamBarcode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVCamBarcode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A921C831CD2858B00E7B04B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A921C851CD2858B00E7B04B /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -83,7 +81,6 @@
 				7A921C831CD2858B00E7B04B /* AppDelegate.swift */,
 				7A921C951CD2861000E7B04B /* PreviewView.swift */,
 				7A921C851CD2858B00E7B04B /* CameraViewController.swift */,
-				7A5BA9711CD2B5EE0091A264 /* ItemSelectionViewController.swift */,
 				7A921C871CD2858B00E7B04B /* Main.storyboard */,
 				7A921C8A1CD2858B00E7B04B /* Assets.xcassets */,
 				7A921C8C1CD2858B00E7B04B /* LaunchScreen.storyboard */,
@@ -166,7 +163,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A5BA9721CD2B5EE0091A264 /* ItemSelectionViewController.swift in Sources */,
 				7A921C861CD2858B00E7B04B /* CameraViewController.swift in Sources */,
 				7A921C841CD2858B00E7B04B /* AppDelegate.swift in Sources */,
 				7A921C961CD2861000E7B04B /* PreviewView.swift in Sources */,

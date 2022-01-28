@@ -10,8 +10,7 @@ import AVFoundation
 import SafariServices
 
 class CameraViewController: UIViewController,
-                                AVCaptureMetadataOutputObjectsDelegate,
-                                ItemSelectionViewControllerDelegate {
+                            AVCaptureMetadataOutputObjectsDelegate {
     
 	// MARK: View Controller Life Cycle
 	
@@ -322,16 +321,6 @@ class CameraViewController: UIViewController,
 		}
 		
 		return availableSessionPresets
-	}
-	
-	@IBAction private func selectSessionPreset() {
-		let itemSelectionViewController = ItemSelectionViewController<AVCaptureSession.Preset>(delegate: self,
-		                                                                                       identifier: sessionPresetItemSelectionIdentifier,
-		                                                                                       allItems: availableSessionPresets(),
-		                                                                                       selectedItems: [session.sessionPreset],
-		                                                                                       allowsMultipleSelection: false)
-		
-		presentItemSelectionViewController(itemSelectionViewController)
 	}
 	
 	// MARK: Device Configuration
@@ -663,16 +652,6 @@ class CameraViewController: UIViewController,
 	
 	@IBOutlet private var metadataObjectTypesButton: UIButton!
 	
-	@IBAction private func selectMetadataObjectTypes() {
-		let itemSelectionViewController = ItemSelectionViewController<AVMetadataObject.ObjectType>(delegate: self,
-		                                                                                           identifier: metadataObjectTypeItemSelectionIdentifier,
-		                                                                                           allItems: metadataOutput.availableMetadataObjectTypes,
-		                                                                                           selectedItems: metadataOutput.metadataObjectTypes,
-		                                                                                           allowsMultipleSelection: true)
-		
-		presentItemSelectionViewController(itemSelectionViewController)
-	}
-	
 	private class MetadataObjectLayer: CAShapeLayer {
 		var metadataObject: AVMetadataObject?
 	}
@@ -797,47 +776,6 @@ class CameraViewController: UIViewController,
 				self.addMetadataObjectOverlayLayersToVideoPreviewView(metadataObjectOverlayLayers)
 				
 				self.metadataObjectsOverlayLayersDrawingSemaphore.signal()
-			}
-		}
-	}
-	
-	// MARK: ItemSelectionViewControllerDelegate
-	
-	let metadataObjectTypeItemSelectionIdentifier = "MetadataObjectTypes"
-	
-	let sessionPresetItemSelectionIdentifier = "SessionPreset"
-	
-	private func presentItemSelectionViewController<Item>(_ itemSelectionViewController: ItemSelectionViewController<Item>) {
-		let navigationController = UINavigationController(rootViewController: itemSelectionViewController)
-		navigationController.navigationBar.barTintColor = .black
-		navigationController.navigationBar.tintColor = view.tintColor
-		present(navigationController, animated: true, completion: nil)
-	}
-	
-	func itemSelectionViewController<Item>(_ itemSelectionViewController: ItemSelectionViewController<Item>, didFinishSelectingItems selectedItems: [Item]) {
-		let identifier = itemSelectionViewController.identifier
-		
-		if identifier == metadataObjectTypeItemSelectionIdentifier {
-			guard let selectedMetadataObjectTypes = selectedItems as? [AVMetadataObject.ObjectType] else {
-				fatalError("Expected `[AVMetadataObject.ObjectType]` type for selectedItems. Check `selectMetadataObjectTypes()` implementation.")
-			}
-			
-			sessionQueue.async {
-				self.metadataOutput.metadataObjectTypes = selectedMetadataObjectTypes
-			}
-		} else if identifier == sessionPresetItemSelectionIdentifier {
-			guard let selectedSessionPreset = selectedItems.first as? AVCaptureSession.Preset else {
-				fatalError("Expected `[AVCaptureSession.Preset]` type for selectedItems. Check `selectSessionPreset()` implementation.")
-			}
-			
-			sessionQueue.async {
-				self.session.beginConfiguration()
-				self.session.sessionPreset = selectedSessionPreset
-				self.setRecommendedZoomFactor()
-				self.session.commitConfiguration()
-				DispatchQueue.main.async {
-					self.zoomSlider.value = Float(self.videoDeviceInput.device.videoZoomFactor)
-				}
 			}
 		}
 	}
