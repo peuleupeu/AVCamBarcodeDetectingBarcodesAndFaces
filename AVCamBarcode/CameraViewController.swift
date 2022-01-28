@@ -18,7 +18,6 @@ class CameraViewController: UIViewController,
 		super.viewDidLoad()
 		
 		// The UI is disabled, it's enabled only if the session starts running.
-		metadataObjectTypesButton.isEnabled = false
 		sessionPresetsButton.isEnabled = false
 		cameraButton.isEnabled = false
 		zoomSlider.isEnabled = false
@@ -289,7 +288,6 @@ class CameraViewController: UIViewController,
 	private let videoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified)
 	
 	@IBAction private func changeCamera() {
-		metadataObjectTypesButton.isEnabled = false
 		sessionPresetsButton.isEnabled = false
 		cameraButton.isEnabled = false
 		zoomSlider.isEnabled = false
@@ -361,7 +359,6 @@ class CameraViewController: UIViewController,
 			}
 			
 			DispatchQueue.main.async {
-				self.metadataObjectTypesButton.isEnabled = true
 				self.sessionPresetsButton.isEnabled = true
 				self.cameraButton.isEnabled = true
 				self.zoomSlider.isEnabled = true
@@ -394,7 +391,6 @@ class CameraViewController: UIViewController,
 			guard let isSessionRunning = change.newValue else { return }
 			
 			DispatchQueue.main.async {
-				self.metadataObjectTypesButton.isEnabled = isSessionRunning
 				self.sessionPresetsButton.isEnabled = isSessionRunning
 				self.cameraButton.isEnabled = isSessionRunning && self.videoDeviceDiscoverySession.devices.count > 1
 				self.zoomSlider.isEnabled = isSessionRunning
@@ -531,8 +527,6 @@ class CameraViewController: UIViewController,
                       "weiya",
                       "yingliu",
                       "zhongmm"].shuffled()
-	
-	@IBOutlet private var metadataObjectTypesButton: UIButton!
 	
 	private class MetadataObjectLayer: CAShapeLayer {
 		var metadataObject: AVMetadataObject?
