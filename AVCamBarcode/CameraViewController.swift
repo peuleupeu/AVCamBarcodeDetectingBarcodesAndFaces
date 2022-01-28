@@ -181,9 +181,9 @@ class CameraViewController: UIViewController,
 	
 	@IBOutlet private var previewView: PreviewView!
 	
-	private var rectOfInterestWidth = Double() // A percentage from 0.0 to 1.0.
+    private var rectOfInterestWidth = 1.0 // A percentage from 0.0 to 1.0.
 	
-	private var rectOfInterestHeight = Double() // A percentage from 0.0 to 1.0.
+    private var rectOfInterestHeight = 1.0 // A percentage from 0.0 to 1.0.
 	
 	// Call this method on the session queue.
 	private func configureSession() {
@@ -267,12 +267,7 @@ class CameraViewController: UIViewController,
              This means that the region of interest appears in the same spot regardless
              of whether the app starts in portrait or landscape.
 			*/
-			let formatDimensions = CMVideoFormatDescriptionGetDimensions(self.videoDeviceInput.device.activeFormat.formatDescription)
-			self.rectOfInterestWidth = Double(formatDimensions.height) / Double(formatDimensions.width)
-			self.rectOfInterestHeight = 1.0
-			let xCoordinate = (1.0 - self.rectOfInterestWidth) / 2.0
-			let yCoordinate = (1.0 - self.rectOfInterestHeight) / 2.0
-			let initialRectOfInterest = CGRect(x: xCoordinate, y: yCoordinate, width: self.rectOfInterestWidth, height: self.rectOfInterestHeight)
+            let initialRectOfInterest = CGRect(x: 0.0, y: 0.0, width: self.rectOfInterestWidth, height: self.rectOfInterestHeight)
 			metadataOutput.rectOfInterest = initialRectOfInterest
 
 			DispatchQueue.main.async {
