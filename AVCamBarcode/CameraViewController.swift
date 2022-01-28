@@ -162,10 +162,6 @@ class CameraViewController: UIViewController,
 	
 	@IBOutlet private var previewView: PreviewView!
 	
-    private var rectOfInterestWidth = 1.0 // A percentage from 0.0 to 1.0.
-	
-    private var rectOfInterestHeight = 1.0 // A percentage from 0.0 to 1.0.
-	
 	// Call this method on the session queue.
 	private func configureSession() {
 		if self.setupResult != .success {
@@ -243,13 +239,8 @@ class CameraViewController: UIViewController,
 			metadataOutput.setMetadataObjectsDelegate(self, queue: metadataObjectsQueue)
 			metadataOutput.metadataObjectTypes = metadataOutput.availableMetadataObjectTypes // Use all metadata object types by default.
 			
-			/*
-             Set an initial square rectangle of interest that is 100% of the view's shortest side.
-             This means that the region of interest appears in the same spot regardless
-             of whether the app starts in portrait or landscape.
-			*/
-            let initialRectOfInterest = CGRect(x: 0.0, y: 0.0, width: self.rectOfInterestWidth, height: self.rectOfInterestHeight)
-			metadataOutput.rectOfInterest = initialRectOfInterest
+			// Set rectangle of interest as 100% of the view.
+			metadataOutput.rectOfInterest = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
 		} else {
 			print("Could not add metadata output to the session")
 			setupResult = .configurationFailed
@@ -390,20 +381,6 @@ class CameraViewController: UIViewController,
 		} catch {
 			print("Could not lock for configuration: \(error)")
 		}
-	}
-	
-	private func minimumSubjectDistanceForCode(fieldOfView: Float, minimumCodeSize: Float, previewFillPercentage: Float) -> Float {
-		/*
-         Given the camera horizontal field of view, compute the distance (mm) to make a code
-         of `minimumCodeSize` (mm) fill the `previewFillPercentage`.
-		 */
-		let radians = degreesToRadians(fieldOfView / 2)
-		let filledCodeSize = minimumCodeSize / previewFillPercentage
-		return filledCodeSize / tan(radians)
-	}
-	
-	private func degreesToRadians(_ degrees: Float) -> Float {
-		return degrees * Float.pi / 180
 	}
 	
 	// MARK: KVO and Notifications
@@ -596,22 +573,6 @@ class CameraViewController: UIViewController,
 		}
 		
 		return metadataObjectOverlayLayer
-	}
-	
-	private func barcodeOverlayPathWithCorners(_ corners: [CGPoint]) -> CGMutablePath {
-		let path = CGMutablePath()
-		
-		if let corner = corners.first {
-			path.move(to: corner, transform: .identity)
-			
-			for corner in corners[1..<corners.count] {
-				path.addLine(to: corner)
-			}
-			
-			path.closeSubpath()
-		}
-		
-		return path
 	}
 	
 	private var removeMetadataObjectOverlayLayersTimer: Timer?
