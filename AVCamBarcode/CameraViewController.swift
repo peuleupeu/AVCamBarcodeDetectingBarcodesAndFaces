@@ -23,9 +23,6 @@ class CameraViewController: UIViewController,
 		cameraButton.isEnabled = false
 		zoomSlider.isEnabled = false
 		
-		// Add the open barcode gesture recognizer to the region of interest view.
-		previewView.addGestureRecognizer(openBarcodeURLGestureRecognizer)
-		
 		// Set up the video preview view.
 		previewView.session = session
 		
@@ -706,26 +703,6 @@ class CameraViewController: UIViewController,
 		
 		// Create a timer to destroy the metadata object overlays.
 		removeMetadataObjectOverlayLayersTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(removeMetadataObjectOverlayLayers), userInfo: nil, repeats: false)
-	}
-	
-	private lazy var openBarcodeURLGestureRecognizer: UITapGestureRecognizer = {
-		UITapGestureRecognizer(target: self, action: #selector(CameraViewController.openBarcodeURL(with:)))
-	}()
-	
-	@objc
-	private func openBarcodeURL(with openBarcodeURLGestureRecognizer: UITapGestureRecognizer) {
-		for metadataObjectOverlayLayer in metadataObjectOverlayLayers {
-			if metadataObjectOverlayLayer.path!.contains(openBarcodeURLGestureRecognizer.location(in: previewView), using: .winding, transform: .identity) {
-				if let barcodeMetadataObject = metadataObjectOverlayLayer.metadataObject as? AVMetadataMachineReadableCodeObject {
-					if let stringValue = barcodeMetadataObject.stringValue {
-						if let url = URL(string: stringValue) {
-							let safariViewController = SFSafariViewController(url: url)
-							present(safariViewController, animated: true, completion: nil)
-						}
-					}
-				}
-			}
-		}
 	}
 	
 	// MARK: AVCaptureMetadataOutputObjectsDelegate
