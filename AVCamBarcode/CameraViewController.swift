@@ -502,19 +502,21 @@ class CameraViewController: UIViewController,
 		if let faceMetadataObject = transformedMetadataObject as? AVMetadataFaceObject {
             let index = faceMetadataObject.faceID % candidates.count
             let iamgeName = candidates[index]
-            let image = UIImage(named: iamgeName)
+            if let image = UIImage(named: iamgeName) {
+                let imageWidth = image.size.width
+                let imageHeight = image.size.height
 
-            let originalBounds = faceMetadataObject.bounds
-            let newX = 1.5 * originalBounds.minX - 0.5 * originalBounds.midX
-            let newY = 1.7 * originalBounds.minY - 0.7 * originalBounds.maxY
-            let newWidth = 1.5 * originalBounds.width
-            let newHeight = 2 * originalBounds.height
-            let newBounds = CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
+                let originalBounds = faceMetadataObject.bounds
+                let newX = 1.5 * originalBounds.minX - 0.5 * originalBounds.midX
+                let newY = 1.7 * originalBounds.minY - 0.7 * originalBounds.maxY
+                let newWidth = 1.5 * originalBounds.width
+                let newHeight = imageHeight / imageWidth * newWidth
+                let newBounds = CGRect(x: newX, y: newY, width: newWidth, height: newHeight)
 
-            metadataObjectOverlayLayer.frame = newBounds
-            metadataObjectOverlayLayer.bounds = newBounds
-            metadataObjectOverlayLayer.contents = image?.cgImage
-            
+                metadataObjectOverlayLayer.frame = newBounds
+                metadataObjectOverlayLayer.bounds = newBounds
+                metadataObjectOverlayLayer.contents = image.cgImage
+            }
 		}
 		
 		return metadataObjectOverlayLayer
