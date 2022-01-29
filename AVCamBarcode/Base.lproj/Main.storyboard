@@ -22,14 +22,17 @@
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Camera Unavailable" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nFV-EL-Pn1">
                                 <rect key="frame" x="103.66666666666669" y="353.66666666666669" width="207" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVm-ag-Lfj">
-                                <rect key="frame" x="266.66666666666669" y="680" width="103.66666666666669" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVm-ag-Lfj">
+                                <rect key="frame" x="364" y="682" width="30" height="34"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Camera"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="↩︎">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="4"/>
@@ -46,8 +49,9 @@
                             <constraint firstItem="Glm-3F-w79" firstAttribute="trailing" secondItem="guD-bB-Q2w" secondAttribute="trailing" id="1cL-8Q-X7G"/>
                             <constraint firstItem="nFV-EL-Pn1" firstAttribute="centerY" secondItem="GaW-eL-ee2" secondAttribute="centerY" id="4U2-KX-s1p"/>
                             <constraint firstItem="guD-bB-Q2w" firstAttribute="leading" secondItem="Glm-3F-w79" secondAttribute="leading" id="Mt7-Rd-2RD"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="LVm-ag-Lfj" secondAttribute="trailing" constant="31" id="SGv-Bb-6ud"/>
+                            <constraint firstAttribute="trailing" secondItem="LVm-ag-Lfj" secondAttribute="trailing" constant="20" id="SGv-Bb-6ud"/>
                             <constraint firstItem="nFV-EL-Pn1" firstAttribute="centerX" secondItem="Glm-3F-w79" secondAttribute="centerX" id="WN4-Uh-Ja1"/>
+                            <constraint firstItem="LVm-ag-Lfj" firstAttribute="bottom" secondItem="guD-bB-Q2w" secondAttribute="bottom" constant="-20" id="Yua-9A-qo1"/>
                             <constraint firstAttribute="bottom" secondItem="guD-bB-Q2w" secondAttribute="bottom" id="bvU-g8-pba"/>
                             <constraint firstItem="guD-bB-Q2w" firstAttribute="top" secondItem="GaW-eL-ee2" secondAttribute="top" id="xPs-b3-y3x"/>
                         </constraints>
